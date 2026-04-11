@@ -1,0 +1,88 @@
+.sobre-mi {
+  background: #ffffff;
+  padding: 80px 48px;
+}
+
+.sobre-mi__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.sobre-mi__text {
+  flex: 1;
+  max-width: 520px;
+}
+
+.sobre-mi__title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  font-size: 2.25rem;
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+  margin-bottom: 28px;
+}
+
+.sobre-mi__title--black {
+  color: #111111;
+}
+
+.sobre-mi__title--red {
+  color: #cc0000;
+}
+
+.sobre-mi__description {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(0.88rem, 1.2vw, 1rem);
+  color: #444444;
+  line-height: 1.75;
+  margin-bottom: 24px;
+}
+
+.sobre-mi__quote {
+  font-family: 'Poppins', sans-serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+  color: #222222;
+  background: #f5f0f0;
+  border-left: 4px solid #cc0000;
+  border-radius: 6px;
+  padding: 18px 22px;
+  margin: 0 0 24px 0;
+  line-height: 1.6;
+}
+
+.sobre-mi__image-wrapper {
+  flex-shrink: 0;
+  width: clamp(260px, 35vw, 420px);
+  background: #f8e8e8;
+  border-radius: 24px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.sobre-mi__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .sobre-mi__content {
+    flex-direction: column-reverse;
+  }
+
+  .sobre-mi__image-wrapper {
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(ls C:/Projects/willie_clother_site/.env*)",
+      "Bash(ls -la C:/Projects/willie_clother_site/.env*)",
+      "Bash(cmd /c \"netstat -ano | findstr :5173\")",
+      "Bash(cmd /c \"for /f \"\"tokens=5\"\" %a in \\(''netstat -ano ^| findstr :5173''\\) do taskkill /PID %a /F\")"
+    ]
+  }
+}
