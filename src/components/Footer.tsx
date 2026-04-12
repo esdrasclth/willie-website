@@ -204,11 +204,11 @@ export default function Footer() {
               <li>
                 <span className="footer__contact-label" style={{ fontFamily: "'Poppins', sans-serif" }}>Email</span>
                 <a
-                  href="mailto:contacto@willieclother.com"
+                  href="mailto:williejosue26@gmail.com"
                   className="footer__contact-value"
                   style={{ fontFamily: "'Poppins', sans-serif" }}
                 >
-                  contacto@willieclother.com
+                  williejosue26@gmail.com
                 </a>
               </li>
               <li>

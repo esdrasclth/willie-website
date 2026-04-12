@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { getChannelUploadsPlaylistId, getVideoDetails, isShort } from '../utils/youtube'
 
 export interface YoutubeVideo {
   id: string
@@ -8,70 +9,17 @@ export interface YoutubeVideo {
   url: string
 }
 
-const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY
-const CHANNEL_HANDLE = 'WillieClother'
-
-async function getChannelUploadsPlaylistId(): Promise<string> {
-  const res = await fetch(
-    `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forHandle=${CHANNEL_HANDLE}&key=${API_KEY}`
-  )
-  const data = await res.json()
-  if (data.error) throw new Error(`YouTube API error (channels): ${JSON.stringify(data.error)}`)
-  if (!data.items || data.items.length === 0) throw new Error(`Canal no encontrado para handle: ${CHANNEL_HANDLE}`)
-  return data.items[0].contentDetails.relatedPlaylists.uploads
-}
-
-// Parsea duración ISO 8601 (PT1M30S) a segundos
-function parseDuration(iso: string): number {
-  const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/)
-  if (!match) return 0
-  const hours = parseInt(match[1] || '0')
-  const minutes = parseInt(match[2] || '0')
-  const seconds = parseInt(match[3] || '0')
-  return hours * 3600 + minutes * 60 + seconds
-}
-
-function isShort(item: any): boolean {
-  const duration = parseDuration(item.contentDetails.duration)
-  const title: string = item.snippet.title ?? ''
-  const description: string = item.snippet.description ?? ''
-  const tags: string[] = item.snippet.tags ?? []
-
-  const hasShortHashtag =
-    /#shorts/i.test(title) ||
-    /#shorts/i.test(description) ||
-    tags.some((t) => /^shorts$/i.test(t))
-
-  return (duration <= 180 && hasShortHashtag) || duration <= 60
-}
-
-async function getVideoDetails(videoIds: string[]): Promise<Record<string, any>> {
-  if (videoIds.length === 0) return {}
-  const res = await fetch(
-    `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&id=${videoIds.join(',')}&key=${API_KEY}`
-  )
-  const data = await res.json()
-  if (data.error) throw new Error(`YouTube API error (videos): ${JSON.stringify(data.error)}`)
-
-  const map: Record<string, any> = {}
-  for (const item of data.items ?? []) {
-    map[item.id] = item
-  }
-  return map
-}
-
-// Pagina la playlist y devuelve los primeros `needed` videos que NO son Shorts
 async function fetchNonShortVideos(playlistId: string, needed: number): Promise<YoutubeVideo[]> {
   const results: YoutubeVideo[] = []
   let pageToken: string | undefined = undefined
-  const MAX_PAGES = 6 // hasta 300 videos revisados
+  const MAX_PAGES = 6
 
   for (let page = 0; page < MAX_PAGES && results.length < needed; page++) {
     const url = new URL('https://www.googleapis.com/youtube/v3/playlistItems')
     url.searchParams.set('part', 'snippet')
     url.searchParams.set('maxResults', '50')
     url.searchParams.set('playlistId', playlistId)
-    url.searchParams.set('key', API_KEY)
+    url.searchParams.set('key', import.meta.env.VITE_YOUTUBE_API_KEY)
     if (pageToken) url.searchParams.set('pageToken', pageToken)
 
     const res = await fetch(url.toString())

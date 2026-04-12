@@ -1,18 +1,20 @@
 import './Metricas.css'
 import { useInView } from '../hooks/useInView'
-
-const metrics = [
-  { value: '3+', label: 'Episodios', description: 'Conversaciones publicadas' },
-  { value: '76+', label: 'Suscriptores', description: 'En YouTube' },
-  { value: '525+', label: 'Visualizaciones', description: 'Vistas totales' },
-  { value: '3+', label: 'Años', description: 'Creando contenido' },
-]
+import { useChannelStats } from '../hooks/useChannelStats'
 
 const delays = ['', ' anim-d1', ' anim-d2', ' anim-d3']
 
 export default function Metricas() {
   const { ref, inView } = useInView()
+  const { stats, loading } = useChannelStats()
   const v = inView ? ' is-visible' : ''
+
+  const metrics = [
+    { value: stats?.videos ?? '—', label: 'Episodios', description: 'Conversaciones publicadas' },
+    { value: stats?.subscribers ?? '—', label: 'Suscriptores', description: 'En YouTube' },
+    { value: stats?.views ?? '—', label: 'Visualizaciones', description: 'Vistas totales' },
+    { value: stats?.years ?? '—', label: 'Años', description: 'Creando contenido' },
+  ]
 
   return (
     <section id="metricas" className="metricas">
@@ -42,7 +44,11 @@ export default function Metricas() {
                 className="metricas__value"
                 style={{ fontFamily: "'Poppins', sans-serif" }}
               >
-                {m.value}
+                {loading ? (
+                  <span className="metricas__skeleton" />
+                ) : (
+                  m.value
+                )}
               </span>
               <span
                 className="metricas__label"

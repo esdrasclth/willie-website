@@ -94,7 +94,7 @@ export default function Participar() {
             <div className="participar__info-item">
               <span className="participar__info-icon"><MailIcon /></span>
               <span className="participar__info-text" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                contacto@willieclother.com
+                williejosue26@gmail.com
               </span>
             </div>
             <div className="participar__info-item">
