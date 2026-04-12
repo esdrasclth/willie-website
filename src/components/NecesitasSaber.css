@@ -1,0 +1,97 @@
+.necesitas-saber {
+  background: #adb5bd;
+  padding: 80px 48px;
+}
+
+.necesitas-saber__inner {
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.necesitas-saber__header {
+  margin-bottom: 48px;
+}
+
+.necesitas-saber__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.necesitas-saber__item {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+  align-self: start;
+}
+
+.necesitas-saber__item:hover {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.necesitas-saber__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.necesitas-saber__pregunta {
+  font-size: clamp(0.75rem, 1.1vw, 0.85rem);
+  font-weight: 600;
+  color: #111111;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  transition: color 0.2s ease;
+}
+
+.necesitas-saber__item--open .necesitas-saber__pregunta {
+  color: #111111;
+}
+
+.necesitas-saber__icon {
+  flex-shrink: 0;
+}
+
+.necesitas-saber__body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+}
+
+.necesitas-saber__item--open .necesitas-saber__body {
+  grid-template-rows: 1fr;
+}
+
+.necesitas-saber__body-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.necesitas-saber__respuesta {
+  font-size: clamp(0.8rem, 1vw, 0.9rem);
+  color: #555555;
+  line-height: 1.75;
+  padding: 0 24px 22px;
+}
+
+@media (max-width: 768px) {
+  .necesitas-saber__list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 540px) {
+  .necesitas-saber {
+    padding: 60px 24px;
+  }
+}

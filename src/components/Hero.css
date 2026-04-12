@@ -28,3 +28,20 @@
   height: 4px;
   background: linear-gradient(135deg, #e60000, #1a0000);
 }
+
+@media (max-width: 768px) {
+  .hero__img {
+    object-position: 70% center;
+  }
+
+  .hero__content {
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: 0;
+    transform: none;
+    max-width: 100%;
+    padding: 40px 24px;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 70%, transparent 100%);
+  }
+}

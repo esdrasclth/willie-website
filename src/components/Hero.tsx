@@ -50,7 +50,9 @@ export default function Hero() {
         <div className="flex items-center gap-4 mt-8">
           {/* YouTube — botón principal */}
           <a
-            href="#youtube"
+            href="https://www.youtube.com/@WillieClother"
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center gap-3 text-white font-semibold text-sm tracking-wider px-8 py-3 rounded-lg transition-all hover:opacity-90"
             style={{ fontFamily: "'Poppins', sans-serif", background: 'linear-gradient(135deg, #e60000, #1a0000)' }}
           >
@@ -60,7 +62,9 @@ export default function Hero() {
 
           {/* Facebook — solo icono */}
           <a
-            href="#facebook"
+            href="https://www.facebook.com/profile.php?id=61584598955883"
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center justify-center w-12 h-12 rounded-full bg-white/20 text-white hover:bg-white/35 transition-all backdrop-blur-sm"
           >
             <FacebookIcon />
@@ -68,7 +72,9 @@ export default function Hero() {
 
           {/* TikTok — solo icono */}
           <a
-            href="#tiktok"
+            href="https://www.tiktok.com/@willieclother1"
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center justify-center w-12 h-12 rounded-full bg-white/20 text-white hover:bg-white/35 transition-all backdrop-blur-sm"
           >
             <TikTokIcon />

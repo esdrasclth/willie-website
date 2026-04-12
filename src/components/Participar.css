@@ -1,0 +1,144 @@
+.participar {
+  background: #edede9;
+  padding: 90px 48px;
+}
+
+.participar__inner {
+  max-width: 80rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  align-items: center;
+  gap: 80px;
+}
+
+/* ── Columna izquierda ── */
+.participar__title {
+  font-weight: 900;
+  font-size: clamp(2.4rem, 4.5vw, 4rem);
+  line-height: 1.05;
+  color: #111111;
+  letter-spacing: 0.02em;
+  margin-bottom: 24px;
+}
+
+.participar__desc {
+  font-size: clamp(0.875rem, 1.2vw, 1rem);
+  color: #444444;
+  line-height: 1.75;
+  margin-bottom: 40px;
+  max-width: 380px;
+}
+
+.participar__info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.participar__info-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.participar__info-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #b30000;
+  flex-shrink: 0;
+}
+
+.participar__info-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111111;
+}
+
+/* ── Formulario ── */
+.participar__form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.participar__form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.participar__input,
+.participar__textarea {
+  width: 100%;
+  background: #e2e3de;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 0.875rem;
+  color: #111111;
+  outline: none;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.participar__input::placeholder,
+.participar__textarea::placeholder {
+  color: #888888;
+}
+
+.participar__input:focus,
+.participar__textarea:focus {
+  background: #d8d9d4;
+  box-shadow: 0 0 0 2px rgba(179, 0, 0, 0.25);
+}
+
+.participar__textarea {
+  resize: vertical;
+  min-height: 130px;
+}
+
+.participar__submit {
+  width: 100%;
+  background: #8b0000;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: background 0.25s ease;
+  margin-top: 4px;
+}
+
+.participar__submit:hover {
+  background: #a00000;
+}
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+  .participar__inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .participar__desc {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 540px) {
+  .participar {
+    padding: 64px 24px;
+  }
+
+  .participar__form-row {
+    grid-template-columns: 1fr;
+  }
+}

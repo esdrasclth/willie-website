@@ -1,15 +1,20 @@
-export default function Sponsors() {
-  const sponsors = [
-    { id: 1, name: 'Patrocinador 1' },
-    { id: 2, name: 'Patrocinador 2' },
-    { id: 3, name: 'Patrocinador 3' },
-    { id: 4, name: 'Patrocinador 4' },
-  ]
+import bloxiImg from '../assets/bloxi.png'
+import macImg from '../assets/mac.png'
+import brandsoftImg from '../assets/brandsoft.png'
+import latwentyImg from '../assets/latwenty.png'
 
+const sponsors = [
+  { id: 1, name: 'Bloxi', img: bloxiImg, width: '140px' },
+  { id: 2, name: 'Mac', img: macImg, width: '140px' },
+  { id: 3, name: 'Brandsoft', img: brandsoftImg, width: '60px' },
+  { id: 4, name: 'La Twenty', img: latwentyImg, width: '140px' },
+]
+
+export default function Sponsors() {
   return (
     <section
       id="patrocinador"
-      className="py-12 px-12"
+      className="py-12 px-6 md:px-12"
       style={{ background: 'linear-gradient(135deg, #e60000, #1a0000)' }}
     >
       <div className="max-w-7xl mx-auto">
@@ -35,15 +40,14 @@ export default function Sponsors() {
           {sponsors.map((sponsor) => (
             <div
               key={sponsor.id}
-              className="w-48 h-24 rounded-xl flex items-center justify-center"
+              className="w-48 h-24 rounded-xl flex items-center justify-center p-4"
               style={{ background: 'rgba(255,255,255,0.15)' }}
             >
-              <span
-                className="text-white/50 text-xs tracking-widest uppercase"
-                style={{ fontFamily: "'Poppins', sans-serif" }}
-              >
-                {sponsor.name}
-              </span>
+              <img
+                src={sponsor.img}
+                alt={sponsor.name}
+                style={{ filter: 'brightness(0) invert(1)', width: sponsor.width, height: 'auto' }}
+              />
             </div>
           ))}
         </div>

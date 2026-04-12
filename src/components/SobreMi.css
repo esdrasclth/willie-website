@@ -76,13 +76,22 @@
 }
 
 @media (max-width: 768px) {
+  .sobre-mi {
+    padding: 60px 24px;
+  }
+
   .sobre-mi__content {
     flex-direction: column-reverse;
+    gap: 36px;
   }
 
   .sobre-mi__image-wrapper {
     width: 100%;
     max-width: 340px;
     margin: 0 auto;
+  }
+
+  .sobre-mi__title {
+    font-size: 1.8rem;
   }
 }

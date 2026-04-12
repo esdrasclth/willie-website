@@ -77,12 +77,12 @@ export default function RecentEpisodes() {
   return (
     <section
       id="episodios"
-      className="py-20 px-12"
+      className="py-20 px-6 md:px-12"
       style={{ background: '#edede9' }}
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-12 flex items-end justify-between">
+        <div className="mb-12 flex items-end justify-between flex-wrap gap-4">
           <div>
             <p
               className="text-xs tracking-[4px] font-medium mb-3"
@@ -115,7 +115,7 @@ export default function RecentEpisodes() {
             {error}
           </p>
         ) : (
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {loading
               ? Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
               : videos.map((video) => <VideoCard key={video.id} {...video} />)
