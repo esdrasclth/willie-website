@@ -16,7 +16,7 @@ function VideoCard({ title, thumbnail, url, publishedAt, delay }: {
   publishedAt: string
   delay: string
 }) {
-  const { ref, inView } = useInView()
+  const { ref, inView } = useInView<HTMLAnchorElement>()
   return (
     <a
       ref={ref}
