@@ -181,6 +181,23 @@ a.footer__contact-value:hover {
   opacity: 0.85;
 }
 
+.footer__newsletter-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.footer__newsletter-success {
+  font-size: 0.82rem;
+  color: #4ade80;
+  padding: 10px 0;
+}
+
+.footer__newsletter-error {
+  font-size: 0.78rem;
+  color: #f87171;
+  margin-top: 6px;
+}
+
 /* ── Divider ── */
 .footer__divider {
   height: 1px;

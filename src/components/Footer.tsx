@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import './Footer.css'
 
 function YoutubeIcon() {
@@ -38,6 +39,85 @@ const socialLinks = [
   { icon: <FacebookIcon />, href: 'https://www.facebook.com/profile.php?id=61584598955883', label: 'Facebook' },
   { icon: <TikTokIcon />, href: 'https://www.tiktok.com/@willieclother1', label: 'TikTok' },
 ]
+
+function Newsletter() {
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!email) return
+    setStatus('loading')
+
+    try {
+      const res = await fetch('https://api.brevo.com/v3/contacts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'api-key': import.meta.env.VITE_BREVO_API_KEY,
+        },
+        body: JSON.stringify({
+          email,
+          listIds: [Number(import.meta.env.VITE_BREVO_LIST_ID)],
+          updateEnabled: true,
+        }),
+      })
+
+      if (res.ok || res.status === 204) {
+        setStatus('success')
+        setEmail('')
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  return (
+    <div className="footer__newsletter">
+      <p className="footer__nav-title" style={{ fontFamily: "'Poppins', sans-serif" }}>
+        NEWSLETTER
+      </p>
+      <p className="footer__newsletter-desc" style={{ fontFamily: "'Poppins', sans-serif" }}>
+        Únete y recibe los nuevos episodios directo en tu correo.
+      </p>
+
+      {status === 'success' ? (
+        <p className="footer__newsletter-success" style={{ fontFamily: "'Poppins', sans-serif" }}>
+          ¡Listo! Ya estás suscrito.
+        </p>
+      ) : (
+        <form className="footer__newsletter-form" onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Tu correo electrónico"
+            className="footer__newsletter-input"
+            style={{ fontFamily: "'Poppins', sans-serif" }}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={status === 'loading'}
+            required
+          />
+          <button
+            type="submit"
+            className="footer__newsletter-btn"
+            style={{ fontFamily: "'Poppins', sans-serif" }}
+            disabled={status === 'loading'}
+          >
+            {status === 'loading' ? '...' : 'UNIRME'}
+          </button>
+        </form>
+      )}
+
+      {status === 'error' && (
+        <p className="footer__newsletter-error" style={{ fontFamily: "'Poppins', sans-serif" }}>
+          Algo salió mal. Intenta de nuevo.
+        </p>
+      )}
+    </div>
+  )
+}
 
 export default function Footer() {
   return (
@@ -116,30 +196,7 @@ export default function Footer() {
               </li>
             </ul>
 
-            {/* Newsletter */}
-            <div className="footer__newsletter">
-              <p className="footer__nav-title" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                NEWSLETTER
-              </p>
-              <p className="footer__newsletter-desc" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                Únete y recibe los nuevos episodios directo en tu correo.
-              </p>
-              <form className="footer__newsletter-form" onSubmit={(e) => e.preventDefault()}>
-                <input
-                  type="email"
-                  placeholder="Tu correo electrónico"
-                  className="footer__newsletter-input"
-                  style={{ fontFamily: "'Poppins', sans-serif" }}
-                />
-                <button
-                  type="submit"
-                  className="footer__newsletter-btn"
-                  style={{ fontFamily: "'Poppins', sans-serif" }}
-                >
-                  UNIRME
-                </button>
-              </form>
-            </div>
+            <Newsletter />
           </div>
         </div>
 
