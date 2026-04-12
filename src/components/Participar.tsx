@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import emailjs from '@emailjs/browser'
 import './Participar.css'
 
 function MailIcon() {
@@ -18,7 +20,62 @@ function LocationIcon() {
   )
 }
 
+function isValidEmail(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+
+type FormState = {
+  nombre: string
+  email: string
+  rol: string
+  empresa: string
+  mensaje: string
+}
+
+const emptyForm: FormState = { nombre: '', email: '', rol: '', empresa: '', mensaje: '' }
+
 export default function Participar() {
+  const [form, setForm] = useState<FormState>(emptyForm)
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [emailError, setEmailError] = useState('')
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    if (e.target.name === 'email') setEmailError('')
+    setForm({ ...form, [e.target.name]: e.target.value })
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setEmailError('')
+
+    if (!isValidEmail(form.email)) {
+      setEmailError('Ingresa un correo electrónico válido.')
+      return
+    }
+
+    setStatus('loading')
+
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          to_emails: import.meta.env.VITE_EMAILJS_TO_EMAILS,
+          nombre: form.nombre,
+          email: form.email,
+          rol: form.rol || '—',
+          empresa: form.empresa || '—',
+          mensaje: form.mensaje,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+      )
+      setStatus('success')
+      setForm(emptyForm)
+    } catch {
+      setStatus('error')
+    }
+  }
+
   return (
     <section id="participar" className="participar">
       <div className="participar__inner">
@@ -35,17 +92,13 @@ export default function Participar() {
 
           <div className="participar__info">
             <div className="participar__info-item">
-              <span className="participar__info-icon">
-                <MailIcon />
-              </span>
+              <span className="participar__info-icon"><MailIcon /></span>
               <span className="participar__info-text" style={{ fontFamily: "'Poppins', sans-serif" }}>
                 contacto@willieclother.com
               </span>
             </div>
             <div className="participar__info-item">
-              <span className="participar__info-icon">
-                <LocationIcon />
-              </span>
+              <span className="participar__info-icon"><LocationIcon /></span>
               <span className="participar__info-text" style={{ fontFamily: "'Poppins', sans-serif" }}>
                 San Pedro Sula, Honduras
               </span>
@@ -54,49 +107,99 @@ export default function Participar() {
         </div>
 
         {/* Columna derecha — Formulario */}
-        <form className="participar__form">
-          <div className="participar__form-row">
-            <input
-              className="participar__input"
-              type="text"
-              placeholder="Nombre"
+        {status === 'success' ? (
+          <div className="participar__success">
+            <div className="participar__success-icon">✓</div>
+            <h3 style={{ fontFamily: "'Poppins', sans-serif" }}>¡Propuesta enviada!</h3>
+            <p style={{ fontFamily: "'Poppins', sans-serif" }}>
+              Recibimos tu mensaje. Te contactaremos pronto al correo <strong>{form.email || 'proporcionado'}</strong>.
+            </p>
+            <button
+              className="participar__success-btn"
               style={{ fontFamily: "'Poppins', sans-serif" }}
-            />
-            <input
-              className="participar__input"
-              type="email"
-              placeholder="Email"
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            />
+              onClick={() => setStatus('idle')}
+            >
+              ENVIAR OTRA
+            </button>
           </div>
-          <div className="participar__form-row">
-            <input
-              className="participar__input"
-              type="text"
-              placeholder="Rol / Título"
+        ) : (
+          <form className="participar__form" onSubmit={handleSubmit}>
+            <div className="participar__form-row">
+              <input
+                className="participar__input"
+                type="text"
+                name="nombre"
+                placeholder="Nombre"
+                value={form.nombre}
+                onChange={handleChange}
+                required
+                style={{ fontFamily: "'Poppins', sans-serif" }}
+              />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <input
+                  className={`participar__input${emailError ? ' participar__input--error' : ''}`}
+                  type="text"
+                  name="email"
+                  placeholder="Email"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                  style={{ fontFamily: "'Poppins', sans-serif" }}
+                />
+                {emailError && (
+                  <p className="participar__email-error" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                    {emailError}
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="participar__form-row">
+              <input
+                className="participar__input"
+                type="text"
+                name="rol"
+                placeholder="Rol / Título"
+                value={form.rol}
+                onChange={handleChange}
+                style={{ fontFamily: "'Poppins', sans-serif" }}
+              />
+              <input
+                className="participar__input"
+                type="text"
+                name="empresa"
+                placeholder="Empresa"
+                value={form.empresa}
+                onChange={handleChange}
+                style={{ fontFamily: "'Poppins', sans-serif" }}
+              />
+            </div>
+            <textarea
+              className="participar__textarea"
+              name="mensaje"
+              placeholder="Cuéntanos más sobre ti o tu propuesta..."
+              rows={5}
+              value={form.mensaje}
+              onChange={handleChange}
+              required
               style={{ fontFamily: "'Poppins', sans-serif" }}
             />
-            <input
-              className="participar__input"
-              type="text"
-              placeholder="Empresa"
+
+            {status === 'error' && (
+              <p className="participar__error" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                Algo salió mal. Intenta de nuevo.
+              </p>
+            )}
+
+            <button
+              type="submit"
+              className="participar__submit"
               style={{ fontFamily: "'Poppins', sans-serif" }}
-            />
-          </div>
-          <textarea
-            className="participar__textarea"
-            placeholder="Cuéntanos más sobre ti o tu propuesta..."
-            rows={5}
-            style={{ fontFamily: "'Poppins', sans-serif" }}
-          />
-          <button
-            type="submit"
-            className="participar__submit"
-            style={{ fontFamily: "'Poppins', sans-serif" }}
-          >
-            ENVIAR PROPUESTA
-          </button>
-        </form>
+              disabled={status === 'loading'}
+            >
+              {status === 'loading' ? 'ENVIANDO...' : 'ENVIAR PROPUESTA'}
+            </button>
+          </form>
+        )}
 
       </div>
     </section>

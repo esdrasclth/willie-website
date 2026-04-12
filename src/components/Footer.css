@@ -163,6 +163,10 @@ a.footer__contact-value:hover {
   background: rgba(255, 255, 255, 0.11);
 }
 
+.footer__newsletter-input--error {
+  border-color: rgba(230, 0, 0, 0.7) !important;
+}
+
 .footer__newsletter-btn {
   background: linear-gradient(135deg, #e60000, #1a0000);
   color: #ffffff;

@@ -97,6 +97,16 @@
   box-shadow: 0 0 0 2px rgba(179, 0, 0, 0.25);
 }
 
+.participar__input--error {
+  box-shadow: 0 0 0 2px rgba(230, 0, 0, 0.5) !important;
+}
+
+.participar__email-error {
+  font-size: 0.75rem;
+  color: #cc0000;
+  margin: 0;
+}
+
 .participar__textarea {
   resize: vertical;
   min-height: 130px;
@@ -119,6 +129,75 @@
 
 .participar__submit:hover {
   background: #a00000;
+}
+
+.participar__submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.participar__error {
+  font-size: 0.8rem;
+  color: #cc0000;
+  margin-bottom: 4px;
+}
+
+/* ── Success state ── */
+.participar__success {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  background: #f7f7f5;
+  border-radius: 16px;
+  padding: 48px 40px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.participar__success-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e60000, #1a0000);
+  color: #ffffff;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.participar__success h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #111111;
+  margin: 0;
+}
+
+.participar__success p {
+  font-size: 0.9rem;
+  color: #555555;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.participar__success-btn {
+  margin-top: 8px;
+  background: transparent;
+  border: 1.5px solid rgba(0,0,0,0.2);
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #111111;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.participar__success-btn:hover {
+  border-color: #e60000;
+  color: #e60000;
 }
 
 /* ── Responsive ── */

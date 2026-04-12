@@ -40,13 +40,28 @@ const socialLinks = [
   { icon: <TikTokIcon />, href: 'https://www.tiktok.com/@willieclother1', label: 'TikTok' },
 ]
 
+function isValidEmail(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+
 function Newsletter() {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [emailError, setEmailError] = useState('')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!email) return
+    setEmailError('')
+
+    if (!email) {
+      setEmailError('Ingresa tu correo.')
+      return
+    }
+    if (!isValidEmail(email)) {
+      setEmailError('El correo no es válido.')
+      return
+    }
+
     setStatus('loading')
 
     try {
@@ -89,24 +104,32 @@ function Newsletter() {
         </p>
       ) : (
         <form className="footer__newsletter-form" onSubmit={handleSubmit}>
-          <input
-            type="email"
-            placeholder="Tu correo electrónico"
-            className="footer__newsletter-input"
-            style={{ fontFamily: "'Poppins', sans-serif" }}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={status === 'loading'}
-            required
-          />
-          <button
-            type="submit"
-            className="footer__newsletter-btn"
-            style={{ fontFamily: "'Poppins', sans-serif" }}
-            disabled={status === 'loading'}
-          >
-            {status === 'loading' ? '...' : 'UNIRME'}
-          </button>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <div style={{ display: 'flex' }}>
+              <input
+                type="text"
+                placeholder="Tu correo electrónico"
+                className={`footer__newsletter-input${emailError ? ' footer__newsletter-input--error' : ''}`}
+                style={{ fontFamily: "'Poppins', sans-serif" }}
+                value={email}
+                onChange={(e) => { setEmail(e.target.value); setEmailError('') }}
+                disabled={status === 'loading'}
+              />
+              <button
+                type="submit"
+                className="footer__newsletter-btn"
+                style={{ fontFamily: "'Poppins', sans-serif" }}
+                disabled={status === 'loading'}
+              >
+                {status === 'loading' ? '...' : 'UNIRME'}
+              </button>
+            </div>
+            {emailError && (
+              <p className="footer__newsletter-error" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                {emailError}
+              </p>
+            )}
+          </div>
         </form>
       )}
 
