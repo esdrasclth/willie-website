@@ -7,7 +7,7 @@ const sponsors = [
   { id: 1, name: 'Bloxi', img: bloxiImg, width: '140px' },
   { id: 2, name: 'Mac', img: macImg, width: '140px' },
   { id: 3, name: 'Brandsoft', img: brandsoftImg, width: '60px' },
-  { id: 4, name: 'La Twenty', img: latwentyImg, width: '140px' },
+  { id: 4, name: 'La Twenty', img: latwentyImg, width: '90px' },
 ]
 
 export default function Sponsors() {

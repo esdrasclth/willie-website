@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import './Navbar.css'
+import SponsorModal from './SponsorModal'
 
 const links = [
   { label: 'INICIO', href: '#inicio' },
@@ -14,6 +15,7 @@ export default function Navbar() {
   const [active, setActive] = useState('INICIO')
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [sponsorOpen, setSponsorOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -68,13 +70,13 @@ export default function Navbar() {
         </ul>
 
         {/* Botón patrocinador desktop */}
-        <a
-          href="#patrocinador"
-          className="navbar__sponsor-btn text-white text-sm font-semibold tracking-widest px-6 py-3 rounded-lg transition-all no-underline"
-          style={{ background: 'linear-gradient(135deg, #e60000, #1a0000)' }}
+        <button
+          onClick={() => setSponsorOpen(true)}
+          className="navbar__sponsor-btn text-white text-sm font-semibold tracking-widest px-6 py-3 rounded-lg transition-all"
+          style={{ background: 'linear-gradient(135deg, #e60000, #1a0000)', border: 'none', cursor: 'pointer' }}
         >
           SÉ PATROCINADOR
-        </a>
+        </button>
 
         {/* Hamburguesa */}
         <button
@@ -108,15 +110,16 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
-        <a
-          href="#patrocinador"
-          onClick={() => setMenuOpen(false)}
+        <button
+          onClick={() => { setMenuOpen(false); setSponsorOpen(true) }}
           className="navbar__mobile-sponsor"
-          style={{ fontFamily: "'Poppins', sans-serif", background: 'linear-gradient(135deg, #e60000, #1a0000)' }}
+          style={{ fontFamily: "'Poppins', sans-serif", background: 'linear-gradient(135deg, #e60000, #1a0000)', border: 'none', cursor: 'pointer' }}
         >
           SÉ PATROCINADOR
-        </a>
+        </button>
       </div>
+
+      <SponsorModal open={sponsorOpen} onClose={() => setSponsorOpen(false)} />
     </>
   )
 }
