@@ -1,4 +1,5 @@
 import './Metricas.css'
+import { useInView } from '../hooks/useInView'
 
 const metrics = [
   { value: '3+', label: 'Episodios', description: 'Conversaciones publicadas' },
@@ -7,12 +8,17 @@ const metrics = [
   { value: '3+', label: 'Años', description: 'Creando contenido' },
 ]
 
+const delays = ['', ' anim-d1', ' anim-d2', ' anim-d3']
+
 export default function Metricas() {
+  const { ref, inView } = useInView()
+  const v = inView ? ' is-visible' : ''
+
   return (
     <section id="metricas" className="metricas">
-      <div className="metricas__inner">
+      <div className="metricas__inner" ref={ref}>
         {/* Header */}
-        <div className="metricas__header">
+        <div className={`metricas__header anim-fade-up${v}`}>
           <p
             className="text-xs tracking-[4px] font-medium mb-3"
             style={{ fontFamily: "'Poppins', sans-serif", color: '#e60000' }}
@@ -31,7 +37,7 @@ export default function Metricas() {
         {/* Grid */}
         <div className="metricas__grid">
           {metrics.map((m, i) => (
-            <div key={i} className="metricas__card">
+            <div key={i} className={`metricas__card anim-fade-up${delays[i]}${v}`}>
               <span
                 className="metricas__value"
                 style={{ fontFamily: "'Poppins', sans-serif" }}

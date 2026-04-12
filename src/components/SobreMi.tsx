@@ -1,11 +1,15 @@
 import wilieImg from '../assets/perfil.png'
 import './SobreMi.css'
+import { useInView } from '../hooks/useInView'
 
 export default function SobreMi() {
+  const { ref, inView } = useInView()
+  const v = inView ? ' is-visible' : ''
+
   return (
     <section id="sobre-mi" className="sobre-mi">
-      <div className="sobre-mi__content">
-        <div className="sobre-mi__text">
+      <div className="sobre-mi__content" ref={ref}>
+        <div className={`sobre-mi__text anim-fade-left${v}`}>
           <p
             className="text-xs tracking-[4px] font-medium mb-3"
             style={{ fontFamily: "'Poppins', sans-serif", color: '#e60000' }}
@@ -37,7 +41,7 @@ export default function SobreMi() {
           </p>
         </div>
 
-        <div className="sobre-mi__image-wrapper">
+        <div className={`sobre-mi__image-wrapper anim-fade-right${v}`}>
           <img src={wilieImg} alt="Willie Clother" className="sobre-mi__image" />
         </div>
       </div>

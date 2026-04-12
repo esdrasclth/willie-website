@@ -1,4 +1,5 @@
 import './Resenas.css'
+import { useInView } from '../hooks/useInView'
 
 const resenas = [
   {
@@ -21,6 +22,8 @@ const resenas = [
   },
 ]
 
+const delays = [' anim-d1', ' anim-d2', ' anim-d3']
+
 function StarIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
@@ -30,11 +33,14 @@ function StarIcon() {
 }
 
 export default function Resenas() {
+  const { ref, inView } = useInView()
+  const v = inView ? ' is-visible' : ''
+
   return (
     <section id="resenas" className="resenas">
-      <div className="resenas__inner">
+      <div className="resenas__inner" ref={ref}>
         {/* Header */}
-        <div className="resenas__header">
+        <div className={`resenas__header anim-fade-up${v}`}>
           <p
             className="text-xs tracking-[4px] font-medium mb-3"
             style={{ fontFamily: "'Poppins', sans-serif", color: '#e60000' }}
@@ -53,8 +59,7 @@ export default function Resenas() {
         {/* Cards */}
         <div className="resenas__grid">
           {resenas.map((r, i) => (
-            <div key={i} className="resenas__card">
-              {/* Estrellas */}
+            <div key={i} className={`resenas__card anim-fade-up${delays[i]}${v}`}>
               <div className="flex gap-1 mb-5" style={{ color: '#e60000' }}>
                 {Array.from({ length: 5 }).map((_, s) => <StarIcon key={s} />)}
               </div>

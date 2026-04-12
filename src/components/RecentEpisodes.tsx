@@ -1,4 +1,5 @@
 import { useYoutubeVideos } from '../hooks/useYoutubeVideos'
+import { useInView } from '../hooks/useInView'
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('es-MX', {
@@ -8,18 +9,21 @@ function formatDate(iso: string) {
   })
 }
 
-function VideoCard({ title, thumbnail, url, publishedAt }: {
+function VideoCard({ title, thumbnail, url, publishedAt, delay }: {
   title: string
   thumbnail: string
   url: string
   publishedAt: string
+  delay: string
 }) {
+  const { ref, inView } = useInView()
   return (
     <a
+      ref={ref}
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex flex-col rounded-xl overflow-hidden bg-white hover:scale-[1.02] transition-transform duration-300 no-underline"
+      className={`group flex flex-col rounded-xl overflow-hidden bg-white hover:scale-[1.02] transition-transform duration-300 no-underline anim-fade-up${delay}${inView ? ' is-visible' : ''}`}
     >
       <div className="relative overflow-hidden aspect-video">
         <img
@@ -27,7 +31,6 @@ function VideoCard({ title, thumbnail, url, publishedAt }: {
           alt={title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        {/* Play overlay */}
         <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <div
             className="w-14 h-14 rounded-full flex items-center justify-center"
@@ -71,8 +74,12 @@ function SkeletonCard() {
   )
 }
 
+const cardDelays = [' anim-d1', ' anim-d2', ' anim-d3', ' anim-d1', ' anim-d2', ' anim-d3']
+
 export default function RecentEpisodes() {
   const { videos, loading, error } = useYoutubeVideos(6)
+  const { ref, inView } = useInView()
+  const v = inView ? ' is-visible' : ''
 
   return (
     <section
@@ -80,9 +87,9 @@ export default function RecentEpisodes() {
       className="py-20 px-6 md:px-12"
       style={{ background: '#edede9' }}
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto" ref={ref}>
         {/* Header */}
-        <div className="mb-12 flex items-end justify-between flex-wrap gap-4">
+        <div className={`mb-12 flex items-end justify-between flex-wrap gap-4 anim-fade-up${v}`}>
           <div>
             <p
               className="text-xs tracking-[4px] font-medium mb-3"
@@ -118,11 +125,12 @@ export default function RecentEpisodes() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {loading
               ? Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
-              : videos.map((video) => <VideoCard key={video.id} {...video} />)
+              : videos.map((video, i) => (
+                  <VideoCard key={video.id} {...video} delay={cardDelays[i] ?? ''} />
+                ))
             }
           </div>
         )}
-
       </div>
     </section>
   )
