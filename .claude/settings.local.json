@@ -6,7 +6,8 @@
       "Bash(ls -la C:/Projects/willie_clother_site/.env*)",
       "Bash(cmd /c \"netstat -ano | findstr :5173\")",
       "Bash(cmd /c \"for /f \"\"tokens=5\"\" %a in \\(''netstat -ano ^| findstr :5173''\\) do taskkill /PID %a /F\")",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(Test-Path \"C:\\\\Projects\\\\willie_clother_site\\\\README.md\")"
     ]
   }
 }

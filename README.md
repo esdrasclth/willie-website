@@ -1,73 +1,125 @@
-# React + TypeScript + Vite
+# Willie Clother — Sitio Oficial del Podcast
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Willie Clother](./src/assets/website.png)
 
-Currently, two official plugins are available:
+> **"Todos saben algo que puede cambiar tu vida."**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Sitio web oficial del podcast **Willie Clother**, un espacio de entrevistas profundas con emprendedores, líderes y creadores desde San Pedro Sula, Honduras. Cada episodio explora historias reales con herramientas prácticas para la evolución personal y profesional.
 
-## React Compiler
+**Live:** [willieclother.netlify.app](https://willieclother.netlify.app)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Secciones
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Hero** — Presentación principal con acceso directo al canal de YouTube
+- **Episodios Recientes** — Videos cargados dinámicamente desde la YouTube API (filtrando Shorts automáticamente)
+- **Sobre Mí** — Historia y filosofía detrás del podcast
+- **El Podcast en Números** — Métricas reales obtenidas en tiempo real desde la YouTube API
+- **Patrocinadores** — Marcas aliadas al proyecto
+- **Lo que dice la Comunidad** — Testimonios de oyentes
+- **FAQ** — Preguntas frecuentes en formato acordeón
+- **Participar** — Formulario de contacto para invitados y marcas
+- **Newsletter** — Suscripción a lista de correo
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Stack Técnico
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Categoría | Tecnología |
+|---|---|
+| Framework | React 19 + TypeScript |
+| Build tool | Vite 8 |
+| Estilos | Tailwind CSS 4 + CSS Modules |
+| Formularios | EmailJS |
+| Newsletter | Brevo API |
+| Videos | YouTube Data API v3 |
+| Analytics | Google Analytics 4 |
+| Deploy | Netlify |
+
+---
+
+## Arquitectura
+
+```
+src/
+├── components/        # Un componente por sección + su CSS colocado
+│   ├── Navbar.tsx
+│   ├── Hero.tsx
+│   ├── RecentEpisodes.tsx
+│   ├── Sponsors.tsx
+│   ├── SponsorModal.tsx
+│   ├── SobreMi.tsx
+│   ├── Metricas.tsx
+│   ├── Resenas.tsx
+│   ├── NecesitasSaber.tsx
+│   ├── Participar.tsx
+│   └── Footer.tsx
+├── hooks/
+│   ├── useYoutubeVideos.ts   # Fetch y filtrado de episodios
+│   ├── useChannelStats.ts    # Métricas del canal en tiempo real
+│   └── useInView.ts          # IntersectionObserver para animaciones
+├── utils/
+│   └── youtube.ts            # Utilidades compartidas de la YouTube API
+└── assets/                   # Imágenes y recursos estáticos
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Funcionalidades destacadas
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Filtrado inteligente de Shorts**
+La YouTube API no distingue nativamente entre videos largos y Shorts. El hook `useYoutubeVideos` pagina la playlist completa y filtra por duración y hashtags (`#shorts`) para mostrar solo episodios reales. La misma lógica se usa en `useChannelStats` para el conteo de episodios.
+
+**Métricas en tiempo real**
+El componente de métricas consulta la YouTube API al cargar la página y muestra suscriptores, vistas totales, episodios (sin Shorts) y años de actividad calculados desde la fecha de creación del canal.
+
+**Animaciones de scroll**
+Hook `useInView` basado en `IntersectionObserver` nativo — sin dependencias externas. Cada sección anima su entrada con `fade-up`, `fade-left` o `fade-right` al hacer scroll, disparándose una sola vez.
+
+**Formulario de participación**
+Integrado con EmailJS. Envía los datos del formulario a múltiples destinatarios configurados en variables de entorno, con validación de email en el cliente.
+
+---
+
+## Variables de entorno
+
+Crea un archivo `.env` en la raíz con:
+
+```env
+VITE_YOUTUBE_API_KEY=tu_api_key
+VITE_EMAILJS_SERVICE_ID=tu_service_id
+VITE_EMAILJS_TEMPLATE_ID=tu_template_id
+VITE_EMAILJS_PUBLIC_KEY=tu_public_key
+VITE_EMAILJS_TO_EMAILS=correo1@gmail.com,correo2@gmail.com
+VITE_BREVO_API_KEY=tu_api_key
+VITE_BREVO_LIST_ID=tu_list_id
 ```
+
+---
+
+## Desarrollo local
+
+```bash
+# Instalar dependencias
+npm install
+
+# Servidor de desarrollo
+npm run dev
+
+# Build de producción
+npm run build
+
+# Preview del build
+npm run preview
+```
+
+---
+
+## Deploy
+
+El sitio se despliega automáticamente en **Netlify** al hacer push a `main`. Las variables de entorno deben configurarse en el panel de Netlify en **Site Settings → Environment Variables**.
+
+---
+
+Desarrollado por [Esdras Clother](mailto:esdras.clother@outlook.com)
